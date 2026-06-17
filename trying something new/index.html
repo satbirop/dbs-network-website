@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBS NETWORK — Cherry Grove</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="dbs-loader">
+  <h2>🌸 DBS NETWORK</h2>
+  <div>Loading Cherry Grove...</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <span class="petal">🌸</span> DBS NETWORK
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('map')">Live Map</button>
+    <button class="nav-link" onclick="showPage('leaderboards')">Leaderboards</button>
+    <button class="nav-link" onclick="showPage('vote')">Vote</button>
+    <button class="nav-link" onclick="showPage('rules')">Rules</button>
+    <button class="nav-link" onclick="showPage('contact')">Contact</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm" onclick="showPage('store')">🛒 Store</button>
+    <button class="btn btn-primary btn-sm" onclick="copyIP()">▶ Play Now</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn">🌙</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="nav-link" onclick="showPage('home'); toggleMenu()">🏠 Home</button>
+  <button class="nav-link" onclick="showPage('map'); toggleMenu()">🗺 Live Map</button>
+  <button class="nav-link" onclick="showPage('leaderboards'); toggleMenu()">🏆 Leaderboards</button>
+  <button class="nav-link" onclick="showPage('vote'); toggleMenu()">⭐ Vote</button>
+  <button class="nav-link" onclick="showPage('rules'); toggleMenu()">📜 Rules</button>
+  <button class="nav-link" onclick="showPage('contact'); toggleMenu()">📧 Contact</button>
+  <button class="nav-link" onclick="showPage('store'); toggleMenu()">🛒 Store</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ HOME PAGE ═══════════════════ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-petals" id="heroPetals"></div>
+    <div class="hero-eyebrow">🌸 Cherry Grove · Season 1</div>
+    <h1>The Ultimate<br><span>Survival Experience</span></h1>
+    <p class="hero-sub">Build, fight, and thrive on DBS NETWORK — a premium Minecraft survival server with live stats, leaderboards, and a thriving community.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="copyIP()">▶ Play Now — play.dbsnetwork.net</button>
+      <button class="btn btn-outline" onclick="window.open('https://discord.gg/DFEqxdjpNp','_blank')">💬 Join Discord</button>
+      <button class="btn btn-ghost" onclick="showPage('map')">🗺 Live Map</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num" id="stat-players">12</div>
+        <div class="stat-label">Players Online</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="stat-discord">847</div>
+        <div class="stat-label">Discord Members</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="stat-joins">3,241</div>
+        <div class="stat-label">Total Joins</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1.21.x</div>
+        <div class="stat-label">Minecraft Version</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hall of Legends -->
+  <div class="section" style="border-top: 1px solid var(--border);">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🏆 Hall of Legends</div>
+        <div class="section-sub">The richest players on DBS NETWORK</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="showPage('leaderboards')">Full Leaderboards →</button>
+    </div>
+    <div class="legend-cards" id="legendCards"></div>
+  </div>
+
+  <!-- Live Map Preview -->
+  <div class="section" style="border-top: 1px solid var(--border); padding-top: 40px;">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🗺 Live World Preview</div>
+        <div class="section-sub">See what's happening right now</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="showPage('map')">Open Full Map →</button>
+    </div>
+    <div class="map-preview-card">
+      <div class="map-header">
+        <h3><span class="live-dot"></span> Live Map</h3>
+        <div style="font-size:13px;color:var(--muted)">🌍 Overworld · Last sync: just now</div>
+      </div>
+      <div class="map-embed">
+        <div class="map-grid"></div>
+        <div style="text-align:center;z-index:1">
+          <div style="font-size:64px;opacity:0.2">🗺</div>
+          <div style="font-size:13px;color:rgba(142,217,156,0.5);margin-top:8px">BlueMap renders here</div>
+          <div style="font-size:12px;color:rgba(142,217,156,0.35);margin-top:4px">Connect BlueMap to play.dbsnetwork.net</div>
+        </div>
+        <div id="mapPlayerDots"></div>
+      </div>
+      <div class="map-players-list" id="mapPlayersList"></div>
+    </div>
+  </div>
+
+  <!-- Join Section -->
+  <div class="section" style="border-top: 1px solid var(--border);">
+    <div class="join-section">
+      <div style="font-size:40px;margin-bottom:12px">🌸</div>
+      <h2 style="font-family:'Noto Serif Display',serif;font-size:30px;margin-bottom:8px">Ready to join?</h2>
+      <p style="color:var(--muted);margin-bottom:0;font-size:15px">Java Edition 1.21.x · Bedrock supported</p>
+      <div class="server-ip-box">
+        <div class="server-ip">play.dbsnetwork.net</div>
+        <button class="copy-btn" onclick="copyIP()">📋 Copy</button>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="window.open('https://discord.gg/dbs','_blank')">💬 Discord</button>
+        <button class="btn btn-ghost" onclick="showPage('store')">🛒 Store</button>
+        <button class="btn btn-ghost" onclick="showPage('vote')">⭐ Vote & Earn</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:18px">🌸 DBS NETWORK</div>
+        <p>Cherry Grove Survival · Season 1. A premium Minecraft experience.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Server</h4>
+          <a onclick="showPage('map')">Live Map</a>
+          <a onclick="showPage('leaderboards')">Leaderboards</a>
+          <a onclick="showPage('vote')">Vote</a>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <a onclick="showPage('rules')">Rules</a>
+          <a onclick="showPage('contact')">Contact</a>
+          <a onclick="showPage('store')">Store</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 DBS NETWORK. Not affiliated with Mojang.</p>
+      <div class="footer-socials">
+        <div class="social-btn" title="Discord">💬</div>
+        <div class="social-btn" title="Twitter">🐦</div>
+        <div class="social-btn" title="YouTube">▶</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ MAP PAGE ═════════════════════ -->
+<div class="page" id="page-map">
+  <div class="map-page-header">
+    <div>
+      <h1>🗺 Live World</h1>
+      <p style="color:var(--muted);font-size:14px;margin-top:4px">Real-time player tracking & world view</p>
+    </div>
+    <div class="map-meta">
+      <div class="meta-chip"><span class="live-dot"></span> <span id="mapOnlineCount">12</span> online</div>
+      <div class="meta-chip">🔄 Live sync</div>
+      <div class="map-meta" style="gap:6px">
+        <button class="btn btn-ghost btn-sm" id="dimOverworld" onclick="setDim('overworld')">🌍 Overworld</button>
+        <button class="btn btn-outline btn-sm" id="dimNether" onclick="setDim('nether')">🔥 Nether</button>
+        <button class="btn btn-outline btn-sm" id="dimEnd" onclick="setDim('end')">✨ End</button>
+      </div>
+    </div>
+  </div>
+  <div class="map-fullpage">
+    <div class="map-fullpage-inner">
+      <div class="map-iframe-wrap">
+        <div class="map-grid"></div>
+        <div class="map-iframe-placeholder">
+          <div style="font-size:64px;opacity:0.2">🗺</div>
+          <p>BlueMap renders here</p>
+          <p class="bluemap-msg">Connect your BlueMap plugin output to this iframe. Configure BlueMap to expose a web port and embed it at <code style="color:rgba(142,217,156,0.7)">/map</code>.</p>
+        </div>
+      </div>
+      <div class="map-sidebar">
+        <div class="map-sidebar-header">Players Online</div>
+        <div class="online-players-list" id="onlinePlayersList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LEADERBOARDS PAGE ════════════ -->
+<div class="page" id="page-leaderboards">
+  <div class="lb-hero">
+    <h1>🏆 Leaderboards</h1>
+    <p>The best of DBS NETWORK — updated live</p>
+  </div>
+  <div class="top3-grid" id="top3Grid"></div>
+  <div class="lb-categories">
+    <button class="cat-btn active" onclick="setCategory('economy')">💰 Richest</button>
+    <button class="cat-btn" onclick="setCategory('kills')">⚔ Kills</button>
+    <button class="cat-btn" onclick="setCategory('deaths')">☠ Deaths</button>
+    <button class="cat-btn" onclick="setCategory('mobkills')">👹 Mob Kills</button>
+    <button class="cat-btn" onclick="setCategory('playtime')">🕒 Playtime</button>
+  </div>
+  <div class="lb-search-wrap">
+    <input class="lb-search" placeholder="🔍 Search player..." oninput="filterLeaderboard(this.value)" id="lbSearch">
+  </div>
+  <div class="lb-table-wrap">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Rank</th>
+          <th id="lbValHeader">Net Worth</th>
+          <th>Kills</th>
+          <th>Playtime</th>
+        </tr>
+      </thead>
+      <tbody id="lbTableBody"></tbody>
+    </table>
+  </div>
+  <div class="lb-pagination" id="lbPagination"></div>
+</div>
+
+<!-- ═══════════════ PLAYER PROFILE PAGE ══════════ -->
+<div class="page" id="page-player">
+  <div class="profile-header" id="profileHeader">
+    <div class="profile-skin-wrap">
+      <div class="profile-skin" id="profileSkin">🧑</div>
+      <div class="online-badge" id="profileBadge">● ONLINE</div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-username" id="profileName">Herobrine</div>
+      <div class="profile-rank-badge" id="profileRankBadge">⭐ Legend</div>
+      <div class="profile-meta">
+        <div class="profile-meta-item">📅 First join: <strong id="profileFirstJoin">Jan 1, 2025</strong></div>
+        <div class="profile-meta-item">🌎 Location: <strong id="profileLocation">Overworld</strong></div>
+        <div class="profile-meta-item">🕒 Last seen: <strong id="profileLastSeen">Just now</strong></div>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showPage('leaderboards')" style="align-self:flex-start">← Back</button>
+  </div>
+  <div class="profile-stats-grid" id="profileStatsGrid"></div>
+</div>
+
+<!-- ═══════════════ VOTE PAGE ════════════════════ -->
+<div class="page" id="page-vote">
+  <div class="vote-hero">
+    <h1>⭐ Vote for DBS</h1>
+    <p>Vote daily to earn in-game rewards and help us grow!</p>
+  </div>
+  <div class="vote-grid">
+    <div class="vote-card">
+      <div class="vote-site-icon">🌐</div>
+      <div class="vote-site-name">Minecraft-Server.net</div>
+      <div class="vote-site-reward">Reward: <strong>$5,000 + Vote Key</strong></div>
+      <p style="font-size:13px;color:var(--muted)">Resets every 24 hours. Top monthly voters get bonus rewards.</p>
+      <button class="btn btn-primary" onclick="window.open('https://minecraft-server.net','_blank')">🗳 Vote Now</button>
+    </div>
+    <div class="vote-card">
+      <div class="vote-site-icon">📋</div>
+      <div class="vote-site-name">Planet Minecraft</div>
+      <div class="vote-site-reward">Reward: <strong>$5,000 + Vote Key</strong></div>
+      <p style="font-size:13px;color:var(--muted)">Help our server ranking on Planet Minecraft's list.</p>
+      <button class="btn btn-primary" onclick="window.open('https://planetminecraft.com','_blank')">🗳 Vote Now</button>
+    </div>
+    <div class="vote-card">
+      <div class="vote-site-icon">🏆</div>
+      <div class="vote-site-name">TopG.org</div>
+      <div class="vote-site-reward">Reward: <strong>$5,000 + Vote Key</strong></div>
+      <p style="font-size:13px;color:var(--muted)">One of the largest server listing platforms.</p>
+      <button class="btn btn-primary" onclick="window.open('https://topg.org','_blank')">🗳 Vote Now</button>
+    </div>
+    <div class="vote-card">
+      <div class="vote-site-icon">⭐</div>
+      <div class="vote-site-name">Minecraft-MP.com</div>
+      <div class="vote-site-reward">Reward: <strong>$5,000 + Vote Key</strong></div>
+      <p style="font-size:13px;color:var(--muted)">Vote once every 24h for daily rewards.</p>
+      <button class="btn btn-primary" onclick="window.open('https://minecraft-mp.com','_blank')">🗳 Vote Now</button>
+    </div>
+  </div>
+  <div style="text-align:center;padding:0 24px 48px">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:500px;margin:0 auto;box-shadow:var(--shadow)">
+      <div style="font-size:24px;margin-bottom:8px">🎁</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:6px">Vote Key Rewards</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.65">Vote keys can be redeemed at <code style="color:var(--cherry)">/votecrate</code> in-game. Rewards include: Money, XP Bottles, Rare Items, Cosmetics, and more!</p>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-bottom">
+      <p>© 2025 DBS NETWORK. Not affiliated with Mojang.</p>
+      <div class="footer-socials">
+        <div class="social-btn">💬</div>
+        <div class="social-btn">🐦</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ RULES PAGE ═══════════════════ -->
+<div class="page" id="page-rules">
+  <div class="rules-container">
+    <h1>📜 Server Rules</h1>
+    <p>Breaking these rules may result in mutes, kicks, or permanent bans. Ignorance is not an excuse.</p>
+    <div id="rulesAccordion"></div>
+  </div>
+  <footer>
+    <div class="footer-bottom">
+      <p>© 2025 DBS NETWORK. Rules subject to change — check Discord for updates.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ CONTACT PAGE ════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-container">
+    <div class="contact-form-card">
+      <h2>📧 Contact Us</h2>
+      <p>Need help? Fill in the form below and we'll get back to you.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Minecraft Username</label>
+          <input class="form-input" placeholder="YourUsername" id="cfMC">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Discord Username</label>
+          <input class="form-input" placeholder="user#0000" id="cfDiscord">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="you@email.com" id="cfEmail">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <select class="form-select" id="cfSubject">
+          <option value="">— Select subject —</option>
+          <option value="ban">🚫 Ban Appeal</option>
+          <option value="bug">🐞 Bug Report</option>
+          <option value="report">⚠ Player Report</option>
+          <option value="staff">🛡 Staff Application</option>
+          <option value="media">🎥 Media Application</option>
+          <option value="other">📌 Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Describe your issue in detail..." id="cfMessage"></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitContact()">📤 Send Message</button>
+    </div>
+    <div class="contact-sidebar">
+      <div class="contact-info-card">
+        <h3>🌸 Get in touch</h3>
+        <div class="contact-info-item"><span class="contact-icon">💬</span><div><div style="font-weight:600;font-size:14px">Discord</div><div style="font-size:13px;color:var(--muted)">Fastest support</div></div></div>
+        <div class="contact-info-item"><span class="contact-icon">📧</span><div><div style="font-weight:600;font-size:14px">support@dbsnetwork.net</div><div style="font-size:13px;color:var(--muted)">48h response time</div></div></div>
+        <div class="contact-info-item"><span class="contact-icon">⏰</span><div><div style="font-weight:600;font-size:14px">Response Times</div><div style="font-size:13px;color:var(--muted)">Discord: ~1h · Email: ~48h</div></div></div>
+      </div>
+      <div class="contact-info-card">
+        <h3>🤝 Staff Team</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.65">Our staff team is active daily on Discord. For urgent issues, open a ticket in #support.</p>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:12px" onclick="window.open('https://discord.gg/dbs','_blank')">Join Discord →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ STORE PAGE ═══════════════════ -->
+<div class="page" id="page-store">
+  <div class="store-page">
+    <div style="font-size:60px;margin-bottom:16px">🛒</div>
+    <h1>DBS Store</h1>
+    <p>Support the server and unlock exclusive perks, ranks, and cosmetics.</p>
+    <div class="store-redirect-box">
+      <div class="store-redirect-url">store.dbsnetwork.net</div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="window.open('https://store.dbsnetwork.net','_blank')">Open Store →</button>
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Purchases directly support server costs and development. All transactions via Tebex.</p>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
